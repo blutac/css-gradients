@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>CSS Gradients</title>
+    </head>
+
+    <style>
+        .testbed {
+            border: 1px dashed;
+            border-color: red;
+            background-color: black;
+        }
+    </style>
+    
+    <body>
+        <div class="testbed" id="tb1">
+            <br><br><br><br><br><br>
+            <br><br><br><br><br><br>
+        </div>
+        <br>
+        <fieldset>
+            <legend>Pickers (Control)</legend>
+            <b>Angle</b>
+            <br>
+            <label for="angle_unit">Unit</label>
+            <select id="angle_unit" name="angle_unit">
+                <option value="">none</option>
+                <option value="deg">deg</option>
+                <option value="turn">turn</option>
+                <option value="to">to</option>
+            </select>
+            <br>
+            <label for="angle_value">Value</label>
+            <input type="range" name="angle_value" id="angle_value" value="0" min="0" max="360" step="1">
+            <br>
+            <br>
+
+            <b>Gradient 1</b>
+            <br>
+            <label for="g1_pos_unit">Unit</label>
+            <select id="g1_pos_unit" name="g1_pos_unit">
+                <option value="">none</option>
+                <option value="%">%</option>
+            </select>
+            <br>
+            <label for="g1_pos_value">Position</label>
+            <input type="range" name="g1_pos_value" id="g1_pos_value" value="" min="0" max="100" step="1">
+            <br>
+            <label for="g1_color">input:color</label>
+            <input type="color" name="g1_color" id="g1_color">
+            <br>
+            <br>
+
+            <b>Gradient 2</b>
+            <br>
+            <label for="g2_pos_unit">Unit</label>
+            <select id="g2_pos_unit" name="g2_pos_unit">
+                <option value="">none</option>
+                <option value="%">%</option>
+            </select>
+            <br>
+            <label for="g2_pos_value">Position</label>
+            <input type="range" name="g2_pos_value" id="g2_pos_value" value="" min="0" max="100" step="1">
+            <br>
+            <label for="g2_color">input:color</label>
+            <input type="color" name="g2_color" id="g2_color">
+            <br>
+        </fieldset>
+    </body>
+
+    <script>
+        let linear_gradient = {
+            angle: 0
+        };
+
+        function genLinearGradient() {
+            let angle_value = document.getElementById("angle_value").value;
+            let g1_pos_value = document.getElementById("g1_pos_value").value;
+            let g2_pos_value = document.getElementById("g2_pos_value").value;
+
+            return `linear-gradient(
+                ${angle_value + 'deg'}
+                , ${'blue'} ${g1_pos_value + '%'}
+                , ${'black'} ${g2_pos_value + '%'}
+            )`
+        }
+
+        let angle_value = document.getElementById("angle_value");
+        let g1_pos_value = document.getElementById("g1_pos_value");
+        let g2_pos_value = document.getElementById("g2_pos_value");
+
+        angle_value.addEventListener("input", function(){
+            document.getElementById("tb1").style.background = genLinearGradient();
+        })
+        g1_pos_value.addEventListener("input", function(){
+            document.getElementById("tb1").style.background = genLinearGradient();
+        })
+        g2_pos_value.addEventListener("input", function(){
+            document.getElementById("tb1").style.background = genLinearGradient();
+        })
+    </script>
+</html>
