@@ -16,90 +16,274 @@
     </style>
     
     <body>
-        <div class="testbed" id="tb1">
+        <div class="testbed" id="background">
+            <br><br><br><br><br><br>
             <br><br><br><br><br><br>
             <br><br><br><br><br><br>
         </div>
         <br>
-        <fieldset>
-            <legend>Pickers (Control)</legend>
-            <b>Angle</b>
-            <br>
-            <label for="angle_unit">Unit</label>
-            <select id="angle_unit" name="angle_unit">
-                <option value="">none</option>
-                <option value="deg">deg</option>
-                <option value="turn">turn</option>
-                <option value="to">to</option>
-            </select>
-            <br>
-            <label for="angle_value">Value</label>
-            <input type="range" name="angle_value" id="angle_value" value="0" min="0" max="360" step="1">
-            <br>
-            <br>
-
-            <b>Gradient 1</b>
-            <br>
-            <label for="g1_pos_unit">Unit</label>
-            <select id="g1_pos_unit" name="g1_pos_unit">
-                <option value="">none</option>
-                <option value="%">%</option>
-            </select>
-            <br>
-            <label for="g1_pos_value">Position</label>
-            <input type="range" name="g1_pos_value" id="g1_pos_value" value="" min="0" max="100" step="1">
-            <br>
-            <label for="g1_color">input:color</label>
-            <input type="color" name="g1_color" id="g1_color">
-            <br>
-            <br>
-
-            <b>Gradient 2</b>
-            <br>
-            <label for="g2_pos_unit">Unit</label>
-            <select id="g2_pos_unit" name="g2_pos_unit">
-                <option value="">none</option>
-                <option value="%">%</option>
-            </select>
-            <br>
-            <label for="g2_pos_value">Position</label>
-            <input type="range" name="g2_pos_value" id="g2_pos_value" value="" min="0" max="100" step="1">
-            <br>
-            <label for="g2_color">input:color</label>
-            <input type="color" name="g2_color" id="g2_color">
-            <br>
+        <fieldset id="controller">
+            <legend>Controller</legend>
         </fieldset>
     </body>
 
     <script>
-        let linear_gradient = {
-            angle: 0
-        };
+        'use strict';
 
-        function genLinearGradient() {
-            let angle_value = document.getElementById("angle_value").value;
-            let g1_pos_value = document.getElementById("g1_pos_value").value;
-            let g2_pos_value = document.getElementById("g2_pos_value").value;
+        class ViewController
+        {
+            backgroundModel = null;
+            backgroundElement = null;
+            controllerElement = null;
 
-            return `linear-gradient(
-                ${angle_value + 'deg'}
-                , ${'blue'} ${g1_pos_value + '%'}
-                , ${'black'} ${g2_pos_value + '%'}
-            )`
+            // have these implicitly defined via id string for consistency?
+            gradientListView = null;
+            addGradientButton = null;
+
+            constructor(backgroundId, controllerId) {
+                this.backgroundElement = document.getElementById(backgroundId);
+                this.controllerElement = document.getElementById(controllerId);
+
+                this.addBackground();
+            }
+
+            addBackground() {
+                this.backgroundModel = new Background();
+
+                // Create gradient list view container
+                this.gradientListView = document.createElement("div");
+                this.gradientListView.id = this.backgroundElement.id + "_gradientListView";
+                this.controllerElement.append(this.gradientListView);
+
+                // Create gradient list view adder button
+                this.gradientListView_button = document.createElement("button");
+                this.gradientListView_button.id = this.backgroundElement.id + "_addGradientButton";
+                this.gradientListView_button.innerHTML = "+";
+                this.gradientListView_button.addEventListener("click", () => this.addGradient(this.gradientListView.id));
+                this.controllerElement.append(this.gradientListView_button);
+
+                // Add Manual Render Button
+                this.renderButton = document.createElement("button");
+                this.renderButton.innerHTML = "Render";
+                this.renderButton.addEventListener("click", () => this.renderBackground());
+                this.controllerElement.append(this.renderButton);
+            }
+            // removeBackground() {}
+
+            addGradient(parentId) {
+                let id = this.backgroundModel.gradients.push(new Gradient()) - 1;
+
+                // Gradient Container
+                let gradient = document.createElement("div");
+                gradient.id = `${parentId}-G${id}`;
+
+                // Gradient Type
+                let type = document.createElement("select");
+                type.id = gradient.id + "_type";
+                type.addEventListener("input", () => {
+                    this.backgroundModel.gradients[id].type = type.value;
+                    this.renderBackground();
+                });
+                
+                let options = ["linear", "radial", "conic", "repeating-linear", "repeating-radial"];
+                for (const option of options){
+                    let type_option = document.createElement("option");
+                    type_option.value = option;
+                    type_option.innerText = option;
+                    type.append(type_option);
+                }
+
+                let type_label = document.createElement("label");
+                type_label.htmlFor = type.id;
+                type_label.innerText = "type:";
+
+                // Gradient Angle
+                let angle = document.createElement("input");
+                angle.id = gradient.id + "_angle";
+                angle.type = "range";
+                angle.value = 0;
+                angle.min = 0;
+                angle.max = 360;
+                angle.value = 1;
+                angle.addEventListener("input", () => {
+                    this.backgroundModel.gradients[id].angle = angle.value;
+                    this.renderBackground();
+                });
+
+                let angle_label = document.createElement("label");
+                angle_label.htmlFor = angle.id;
+                angle_label.innerText = "angle:";
+
+                // Gradient ColorStops list view container
+                let colorStopListView = document.createElement("div");
+                colorStopListView.id = gradient.id + "_colorStopListView";
+                
+                // Gradient ColorStops list view adder button
+                let colorStopListView_button = document.createElement("button");
+                colorStopListView_button.id = gradient.id + "_addColorStopButton";
+                colorStopListView_button.innerText = "+";
+                colorStopListView_button.addEventListener("click", () => this.addColorStop(id));
+
+                // TODO: add x/y offset controls
+                let x = null;
+                let y = null;
+                
+                // Populate gradient view container
+                gradient.append(type_label);
+                gradient.append(type);
+                gradient.append(angle_label);
+                gradient.append(angle);
+                gradient.append(colorStopListView);
+                gradient.append(colorStopListView_button);
+
+                this.gradientListView.append(gradient);
+            }
+            
+            removeGradient(id) {}
+
+            addColorStop(parentId) {
+                let id = this.backgroundModel.gradients[parentId].colorStops.push(new ColorStop()) - 1;
+
+                // ColorStop Container
+                let colorStop = document.createElement("div");
+                colorStop.id = `${this.gradientListView.id}-G${parentId}-CS${id}`; // pull in gradientListView.id correctly
+
+                // ColorStop Color
+                // add radio/checkbox for transparent option
+                let color = document.createElement("input");
+                color.id = colorStop.id + "_color";
+                color.type = "color";
+                color.addEventListener("input", () => {
+                    this.backgroundModel.gradients[parentId].colorStops[id].color = color.value;
+                    this.renderBackground();
+                });
+
+                let color_label = document.createElement("label");
+                color_label.htmlFor = color.id;
+                color_label.innerText = "color:";
+
+                // ColorStop Pos1
+                let pos1 = document.createElement("input");
+                pos1.id = colorStop.id + "_pos1";
+                pos1.type = "range";
+                pos1.value = 0;
+                pos1.min = 0;
+                pos1.max = 100;
+                pos1.value = 1;
+                pos1.addEventListener("input", () => {
+                    this.backgroundModel.gradients[parentId].colorStops[id].pos1 = pos1.value;
+                    this.renderBackground();
+                });
+
+                let pos1_label = document.createElement("label");
+                pos1_label.htmlFor = pos1.id;
+                pos1_label.innerText = "pos1:";
+
+                // Populate gradient view container
+                colorStop.append(color_label);
+                colorStop.append(color);
+                colorStop.append(pos1_label);
+                colorStop.append(pos1);
+
+                let colorStopListView = document.getElementById(`${this.gradientListView.id}-G${parentId}_colorStopListView`); // TODO: pull in gradientListView.id correctly
+                colorStopListView.append(colorStop);
+            }
+            
+            removeColorStop(id) {}
+
+            renderBackground() {
+                console.log(this.backgroundModel.toString());
+                this.backgroundElement.style.background = this.backgroundModel.toString();
+            }
+
         }
 
-        let angle_value = document.getElementById("angle_value");
-        let g1_pos_value = document.getElementById("g1_pos_value");
-        let g2_pos_value = document.getElementById("g2_pos_value");
+        class Background
+        {
+            gradients = null;
+            size_x = null;
+            size_y = null;
 
-        angle_value.addEventListener("input", function(){
-            document.getElementById("tb1").style.background = genLinearGradient();
-        })
-        g1_pos_value.addEventListener("input", function(){
-            document.getElementById("tb1").style.background = genLinearGradient();
-        })
-        g2_pos_value.addEventListener("input", function(){
-            document.getElementById("tb1").style.background = genLinearGradient();
-        })
+            constructor(size_x = "", size_y = "") {
+                this.gradients = [];
+                this.size_x = size_x;
+                this.size_y = size_y;
+            }
+
+            toString() {
+                let value = "";
+
+                for (const [i, v] of this.gradients.entries()) {
+                    value += v.toString();
+                    if (i !== this.gradients.length - 1) value += ",";
+                }
+                return value;
+            }
+        }
+
+        class Gradient
+        {
+            colorStops = null;
+            
+            _angle = null;
+            get angle() {
+                return (this._angle !== "") ? this._angle + "deg" : this._angle
+            }
+            set angle(value) {this._angle = value;}
+            
+            type = null;
+            x = null;
+            y = null;
+
+            constructor(type = "linear", angle = 0, x = "", y = "") {
+                this.colorStops = [];
+                this.type = type;
+                this.angle = angle;
+                this.x = x;
+                this.y = y;
+            }
+
+            toString() {
+                let value = `${this.type}-gradient(${this.angle}`;
+                if (this.angle !== "") value += ",";
+
+                for (const [i, v] of this.colorStops.entries()) {
+                    value += v.toString();
+                    if (i !== this.colorStops.length - 1) value += ",";
+                }
+                return value + `) ${this.x} ${this.y}`;
+            }
+        }
+
+        class ColorStop
+        {
+            _color = null;
+            get color() { return this._color; }
+            set color(value) { this._color = value;}
+            
+            _pos1 = null;
+            get pos1() {
+                return (this._pos1 !== "") ? this._pos1 + "%" : this._pos1
+            }
+            set pos1(value) {this._pos1 = value;}
+            
+            _pos2 = null;
+            get pos2() {
+                return (this._pos2 !== "") ? this._pos2 + "%" : this._pos2
+            }
+            set pos2(value) {this._pos2 = value;}
+
+            constructor(color = "Black", pos1 = "", pos2 = "") {
+                this.color = color;
+                this.pos1 = pos1;
+                this.pos2 = pos2;
+            }
+
+            toString() {
+                return `${this.color} ${this.pos1} ${this.pos2}`;
+            }
+        }
+
+        let vc = new ViewController("background", "controller");
     </script>
 </html>
