@@ -115,6 +115,38 @@
                 angle_label.htmlFor = angle.id;
                 angle_label.innerText = "angle:";
 
+                // Gradient Offset-X
+                let offsetX = document.createElement("input");
+                offsetX.id = gradient.id + "_offsetX";
+                offsetX.type = "range";
+                offsetX.min = 0;
+                offsetX.max = 1000;
+                offsetX.value = 0;
+                offsetX.addEventListener("input", () => {
+                    this.backgroundModel.gradients[id].x = offsetX.value;
+                    this.renderBackground();
+                });
+                
+                let offsetX_label = document.createElement("label");
+                offsetX_label.htmlFor = offsetX.id;
+                offsetX_label.innerText = "offset X:";
+
+                // Gradient Offset-Y
+                let offsetY = document.createElement("input");
+                offsetY.id = gradient.id + "_offsetY";
+                offsetY.type = "range";
+                offsetY.min = 0;
+                offsetY.max = 1000;
+                offsetY.value = 0;
+                offsetY.addEventListener("input", () => {
+                    this.backgroundModel.gradients[id].y = offsetY.value;
+                    this.renderBackground();
+                });
+                
+                let offsetY_label = document.createElement("label");
+                offsetY_label.htmlFor = offsetY.id;
+                offsetY_label.innerText = "offset Y:";
+                
                 // Gradient ColorStops list view container
                 let colorStopListView = document.createElement("div");
                 colorStopListView.id = gradient.id + "_colorStopListView";
@@ -125,15 +157,15 @@
                 colorStopListView_button.innerText = "+";
                 colorStopListView_button.addEventListener("click", () => this.addColorStop(id));
 
-                // TODO: add x/y offset controls
-                let x = null;
-                let y = null;
-                
                 // Populate gradient view container
                 gradient.append(type_label);
                 gradient.append(type);
                 gradient.append(angle_label);
                 gradient.append(angle);
+                gradient.append(offsetX_label);
+                gradient.append(offsetX);
+                gradient.append(offsetY_label);
+                gradient.append(offsetY);
                 gradient.append(colorStopListView);
                 gradient.append(colorStopListView_button);
 
@@ -224,6 +256,7 @@
         class Gradient
         {
             colorStops = null;
+            type = null;
             
             _angle = null;
             get angle() {
@@ -231,9 +264,17 @@
             }
             set angle(value) {this._angle = value;}
             
-            type = null;
-            x = null;
-            y = null;
+            _x = null;
+            get x() {
+                return (this._x !== "") ? this._x + "px" : this._x
+            }
+            set x(value) {this._x = value;}
+
+            _y = null;
+            get y() {
+                return (this._y !== "") ? this._y + "px" : this._y
+            }
+            set y(value) {this._y = value;}
 
             constructor(type = "linear", angle = 0, x = "", y = "") {
                 this.colorStops = [];
