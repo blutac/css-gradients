@@ -33,6 +33,8 @@
         class ViewController
         {
             backgroundModel = null;
+            backgroundSizeModel = null;
+
             backgroundElement = null;
             controllerElement = null;
 
@@ -44,6 +46,7 @@
                 this.backgroundElement = document.getElementById(backgroundId);
                 this.controllerElement = document.getElementById(controllerId);
 
+                this.backgroundSizeModel = [];
                 this.addBackground();
             }
 
@@ -59,10 +62,11 @@
                 this.gradientListView_button = document.createElement("button");
                 this.gradientListView_button.id = this.backgroundElement.id + "_addGradientButton";
                 this.gradientListView_button.innerHTML = "+";
-                this.gradientListView_button.addEventListener("click", () => this.addGradient(this.gradientListView.id));
+                this.gradientListView_button.addEventListener("click", () => {
+                    this.addGradient(this.gradientListView.id);
+                    this.addBackgroundSize(this.gradientListView.id);
+                });
                 this.controllerElement.append(this.gradientListView_button);
-
-                // TODO: background-size
 
                 // Add Manual Render Button
                 this.renderButton = document.createElement("button");
@@ -71,6 +75,52 @@
                 this.controllerElement.append(this.renderButton);
             }
             // removeBackground() {}
+
+            addBackgroundSize(parentId) {
+                let id = this.backgroundSizeModel.push(new BackgroundSize()) - 1;
+
+                // Get Gradient Container
+                let gradient = document.getElementById(`${parentId}-G${id}`);
+
+                // Gradient Scale-X
+                let scaleX = document.createElement("input");
+                scaleX.id = gradient.id + "_scaleX";
+                scaleX.type = "range";
+                scaleX.min = 0;
+                scaleX.max = 1000;
+                scaleX.value = 0;
+                scaleX.addEventListener("input", () => {
+                    this.backgroundSizeModel[id].x = scaleX.value;
+                    this.renderBackground();
+                });
+                
+                let scaleX_label = document.createElement("label");
+                scaleX_label.htmlFor = scaleX.id;
+                scaleX_label.innerText = "scale X:";
+
+                // Gradient Scale-Y
+                let scaleY = document.createElement("input");
+                scaleY.id = gradient.id + "_scaleY";
+                scaleY.type = "range";
+                scaleY.min = 0;
+                scaleY.max = 1000;
+                scaleY.value = 0;
+                scaleY.addEventListener("input", () => {
+                    this.backgroundSizeModel[id].y = scaleY.value;
+                    this.renderBackground();
+                });
+                
+                let scaleY_label = document.createElement("label");
+                scaleY_label.htmlFor = scaleY.id;
+                scaleY_label.innerText = "scale Y:";
+
+                gradient.append(scaleX_label);
+                gradient.append(scaleX);
+                gradient.append(scaleY_label);
+                gradient.append(scaleY);
+            }
+
+            removeBackgroundSize(id) {}
 
             addGradient(parentId) {
                 let id = this.backgroundModel.gradients.push(new Gradient()) - 1;
@@ -244,20 +294,50 @@
             renderBackground() {
                 console.log(this.backgroundModel.toString());
                 this.backgroundElement.style.background = this.backgroundModel.toString();
+
+                // Get BackgroundSize CSS string
+                let bgSize = "";
+                for (const [i, v] of this.backgroundSizeModel.entries()) {
+                    bgSize += v.toString();
+                    if (i !== this.backgroundSizeModel.length - 1) bgSize += ",";
+                }
+
+                console.log(bgSize);
+                this.backgroundElement.style.backgroundSize = bgSize;
             }
 
+        }
+
+        class BackgroundSize
+        {
+            _x = null;
+            get x() {
+                return (this._x !== "") ? this._x + "px" : this._x;
+            }
+            set x(value) {this._x = value;}
+
+            _y = null;
+            get y() {
+                return (this._y !== "") ? this._y + "px" : this._y;
+            }
+            set y(value) {this._y = value;}
+
+            constructor(x = "", y = "") {
+                this.x = x;
+                this.y = y;
+            }
+
+            toString() {
+                return `${this.x} ${this.y}`;
+            }
         }
 
         class Background
         {
             gradients = null;
-            size_x = null;
-            size_y = null;
 
-            constructor(size_x = "", size_y = "") {
+            constructor() {
                 this.gradients = [];
-                this.size_x = size_x;
-                this.size_y = size_y;
             }
 
             toString() {
