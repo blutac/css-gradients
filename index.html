@@ -211,11 +211,29 @@
                 pos1_label.htmlFor = pos1.id;
                 pos1_label.innerText = "pos1:";
 
+                // ColorStop Pos2
+                let pos2 = document.createElement("input");
+                pos2.id = colorStop.id + "_pos2";
+                pos2.type = "range";
+                pos2.value = 0;
+                pos2.min = 0;
+                pos2.max = 100;
+                pos2.addEventListener("input", () => {
+                    this.backgroundModel.gradients[parentId].colorStops[id].pos2 = pos2.value;
+                    this.renderBackground();
+                });
+
+                let pos2_label = document.createElement("label");
+                pos2_label.htmlFor = pos2.id;
+                pos2_label.innerText = "pos2:";
+
                 // Populate gradient view container
                 colorStop.append(color_label);
                 colorStop.append(color);
                 colorStop.append(pos1_label);
                 colorStop.append(pos1);
+                colorStop.append(pos2_label);
+                colorStop.append(pos2);
 
                 let colorStopListView = document.getElementById(`${this.gradientListView.id}-G${parentId}_colorStopListView`); // TODO: pull in gradientListView.id correctly
                 colorStopListView.append(colorStop);
