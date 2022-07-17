@@ -152,13 +152,13 @@ class BackgroundSize
 {
     _x = null;
     get x() {
-        return (this._x !== "") ? this._x + "px" : this._x;
+        return (this._x !== "") ? this._x + "%" : this._x;
     }
     set x(value) {this._x = value;}
 
     _y = null;
     get y() {
-        return (this._y !== "") ? this._y + "px" : this._y;
+        return (this._y !== "") ? this._y + "%" : this._y;
     }
     set y(value) {this._y = value;}
 
