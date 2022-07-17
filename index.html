@@ -62,6 +62,8 @@
                 this.gradientListView_button.addEventListener("click", () => this.addGradient(this.gradientListView.id));
                 this.controllerElement.append(this.gradientListView_button);
 
+                // TODO: background-size
+
                 // Add Manual Render Button
                 this.renderButton = document.createElement("button");
                 this.renderButton.innerHTML = "Render";
@@ -86,7 +88,7 @@
                 });
                 
                 let options = ["linear", "radial", "conic", "repeating-linear", "repeating-radial"];
-                for (const option of options){
+                for (const option of options) {
                     let type_option = document.createElement("option");
                     type_option.value = option;
                     type_option.innerText = option;
@@ -101,10 +103,9 @@
                 let angle = document.createElement("input");
                 angle.id = gradient.id + "_angle";
                 angle.type = "range";
-                angle.value = 0;
                 angle.min = 0;
                 angle.max = 360;
-                angle.value = 1;
+                angle.value = 0;
                 angle.addEventListener("input", () => {
                     this.backgroundModel.gradients[id].angle = angle.value;
                     this.renderBackground();
@@ -169,7 +170,6 @@
                 pos1.value = 0;
                 pos1.min = 0;
                 pos1.max = 100;
-                pos1.value = 1;
                 pos1.addEventListener("input", () => {
                     this.backgroundModel.gradients[parentId].colorStops[id].pos1 = pos1.value;
                     this.renderBackground();
