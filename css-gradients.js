@@ -366,12 +366,12 @@ function generateControllerViewGradient(BG_id, GR_id) {
                     <label for="BG:${BG_id}_GR:${GR_id}_scaleX">X-Scale</label>
                     <div class="form-check form-switch">
                         <input type="checkbox" id="BG:${BG_id}_GR:${GR_id}_scaleX_toggle" class="form-check-input" checked="">
-                        <input type="range" id="BG:${BG_id}_GR:${GR_id}_scaleX" class="form-range" value="0" min="0" max="100" step="1">
+                        <input type="range" id="BG:${BG_id}_GR:${GR_id}_scaleX" class="form-range" value="100" min="0" max="100" step="1">
                     </div>
                     <label for="BG:${BG_id}_GR:${GR_id}_scaleY">Y-Scale</label>
                     <div class="form-check form-switch">
                         <input type="checkbox" id="BG:${BG_id}_GR:${GR_id}_scaleY_toggle" class="form-check-input" checked="">
-                        <input type="range" id="BG:${BG_id}_GR:${GR_id}_scaleY" class="form-range" value="0" min="0" max="100" step="1">
+                        <input type="range" id="BG:${BG_id}_GR:${GR_id}_scaleY" class="form-range" value="100" min="0" max="100" step="1">
                     </div>
                 </div>
             </div>
@@ -417,7 +417,7 @@ function generateControllerViewColorStop(BG_id, GR_id, CS_id) {
                 </div>
             </div>
             <div class="col box">
-                <input type="checkbox" id="BG:${BG_id}_GR:${GR_id}_CS:${CS_id}_color_transparency" class="form-check-input" checked="">
+                <input type="checkbox" id="BG:${BG_id}_GR:${GR_id}_CS:${CS_id}_color_transparency" class="form-check-input">
             </div>
         </div>
     </div>
