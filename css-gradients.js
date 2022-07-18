@@ -8,10 +8,6 @@ class ViewController
     backgroundElement = null;
     controllerElement = null;
 
-    // have these implicitly defined via id string for consistency?
-    // gradientListView = null;
-    // addGradientButton = null;
-
     constructor(backgroundId, controllerId) {
         this.backgroundElement = document.getElementById(backgroundId);
         this.controllerElement = document.getElementById(controllerId);
