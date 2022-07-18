@@ -417,7 +417,7 @@ function generateControllerViewColorStop(BG_id, GR_id, CS_id) {
                 </div>
             </div>
             <div class="col box">
-                <input type="checkbox" id="BG:${BG_id}_GR:${GR_id}_CS:${CS_id}_color_transparency" class="form-check-input" checked="">
+                <input type="checkbox" id="BG:${BG_id}_GR:${GR_id}_CS:${CS_id}_color_transparency" class="form-check-input">
             </div>
         </div>
     </div>
