@@ -134,7 +134,7 @@ class ViewController
         let bgSize = "";
         for (const [i, v] of this.backgroundSizeModel.entries()) {
             bgSize += v.toString();
-            if (i !== this.backgroundSizeModel.length - 1) bgSize += ",";
+            if (i !== this.backgroundSizeModel.length - 1) bgSize += ", ";
         }
 
         console.log(bgSize);
@@ -181,7 +181,7 @@ class Background
 
         for (const [i, v] of this.gradients.entries()) {
             value += v.toString();
-            if (i !== this.gradients.length - 1) value += ",";
+            if (i !== this.gradients.length - 1) value += ", ";
         }
         return value;
     }
@@ -220,11 +220,11 @@ class Gradient
 
     toString() {
         let value = `${this.type}-gradient(${this.angle}`;
-        if (this.angle !== "") value += ",";
+        if (this.angle !== "") value += ", ";
 
         for (const [i, v] of this.colorStops.entries()) {
             value += v.toString();
-            if (i !== this.colorStops.length - 1) value += ",";
+            if (i !== this.colorStops.length - 1) value += ", ";
         }
         return value + `) ${this.x} ${this.y}`;
     }
