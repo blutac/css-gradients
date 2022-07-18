@@ -48,6 +48,20 @@ class ViewController
             this.backgroundSizeModel[id].y = scaleY.value;
             this.renderBackground();
         });
+
+        let scaleX_toggle = document.getElementById(`BG:${parentId}_GR:${id}_scaleX_toggle`);
+        scaleX_toggle.addEventListener("input", () => {
+            scaleX.disabled = !scaleX_toggle.checked;
+            this.backgroundSizeModel[id].x = scaleX_toggle.checked ? scaleX.value : "";
+            this.renderBackground();
+        });
+
+        let scaleY_toggle = document.getElementById(`BG:${parentId}_GR:${id}_scaleY_toggle`);
+        scaleY_toggle.addEventListener("input", () => {
+            scaleY.disabled = !scaleY_toggle.checked;
+            this.backgroundSizeModel[id].y = scaleY_toggle.checked ? scaleY.value : "";
+            this.renderBackground();
+        });
     }
 
     removeBackgroundSize(id) {}
@@ -80,6 +94,27 @@ class ViewController
         let offsetY = document.getElementById(`BG:${parentId}_GR:${id}_offsetY`);
         offsetY.addEventListener("input", () => {
             this.backgroundModel.gradients[id].y = offsetY.value;
+            this.renderBackground();
+        });
+
+        let angle_toggle = document.getElementById(`BG:${parentId}_GR:${id}_angle_toggle`);
+        angle_toggle.addEventListener("input", () => {
+            angle.disabled = !angle_toggle.checked;
+            this.backgroundModel.gradients[id].angle = angle_toggle.checked ? angle.value : "";
+            this.renderBackground();
+        });
+
+        let offsetX_toggle = document.getElementById(`BG:${parentId}_GR:${id}_offsetX_toggle`);
+        offsetX_toggle.addEventListener("input", () => {
+            offsetX.disabled = !offsetX_toggle.checked;
+            this.backgroundModel.gradients[id].x = offsetX_toggle.checked ? offsetX.value : "";
+            this.renderBackground();
+        });
+
+        let offsetY_toggle = document.getElementById(`BG:${parentId}_GR:${id}_offsetY_toggle`);
+        offsetY_toggle.addEventListener("input", () => {
+            offsetY.disabled = !offsetY_toggle.checked;
+            this.backgroundModel.gradients[id].y = offsetY_toggle.checked ? offsetY.value : "";
             this.renderBackground();
         });
 
@@ -120,6 +155,20 @@ class ViewController
         let pos2 = document.getElementById(`BG:${grandParentId}_GR:${parentId}_CS:${id}_pos2`);
         pos2.addEventListener("input", () => {
             this.backgroundModel.gradients[parentId].colorStops[id].pos2 = pos2.value;
+            this.renderBackground();
+        });
+
+        let pos1_toggle = document.getElementById(`BG:${grandParentId}_GR:${parentId}_CS:${id}_pos1_toggle`);
+        pos1_toggle.addEventListener("input", () => {
+            pos1.disabled = !pos1_toggle.checked;
+            this.backgroundModel.gradients[parentId].colorStops[id].pos1 = pos1_toggle.checked ? pos1.value : "";
+            this.renderBackground();
+        });
+        
+        let pos2_toggle = document.getElementById(`BG:${grandParentId}_GR:${parentId}_CS:${id}_pos2_toggle`);
+        pos2_toggle.addEventListener("input", () => {
+            pos2.disabled = !pos2_toggle.checked;
+            this.backgroundModel.gradients[parentId].colorStops[id].pos2 = pos2_toggle.checked ? pos2.value : "";
             this.renderBackground();
         });
     }
@@ -297,31 +346,31 @@ function generateControllerViewGradient(BG_id, GR_id) {
                     <br>
                     <label for="BG:${BG_id}_GR:${GR_id}_angle">Angle</label>
                     <div class="form-check form-switch">
-                        <input type="checkbox" id="BG:${BG_id}_GR:${GR_id}_angle_enable" class="form-check-input" checked="">
+                        <input type="checkbox" id="BG:${BG_id}_GR:${GR_id}_angle_toggle" class="form-check-input" checked="">
                         <input type="range" id="BG:${BG_id}_GR:${GR_id}_angle" class="form-range" value="0" min="0" max="360" step="1">
                     </div>
                 </div>
                 <div class="col box">
                     <label for="BG:${BG_id}_GR:${GR_id}_offsetX">X-Offset</label>
                     <div class="form-check form-switch">
-                        <input type="checkbox" id="" class="form-check-input" checked="">
+                        <input type="checkbox" id="BG:${BG_id}_GR:${GR_id}_offsetX_toggle" class="form-check-input" checked="">
                         <input type="range" id="BG:${BG_id}_GR:${GR_id}_offsetX" class="form-range" value="0" min="0" max="500" step="1">
                     </div>
                     <label for="BG:${BG_id}_GR:${GR_id}_offsetY">Y-Offset</label>
                     <div class="form-check form-switch">
-                        <input type="checkbox" id="" class="form-check-input" checked="">
+                        <input type="checkbox" id="BG:${BG_id}_GR:${GR_id}_offsetY_toggle" class="form-check-input" checked="">
                         <input type="range" id="BG:${BG_id}_GR:${GR_id}_offsetY" class="form-range" value="0" min="0" max="500" step="1">
                     </div>
                 </div>
                 <div class="col box">
                     <label for="BG:${BG_id}_GR:${GR_id}_scaleX">X-Scale</label>
                     <div class="form-check form-switch">
-                        <input type="checkbox" id="" class="form-check-input" checked="">
+                        <input type="checkbox" id="BG:${BG_id}_GR:${GR_id}_scaleX_toggle" class="form-check-input" checked="">
                         <input type="range" id="BG:${BG_id}_GR:${GR_id}_scaleX" class="form-range" value="0" min="0" max="100" step="1">
                     </div>
                     <label for="BG:${BG_id}_GR:${GR_id}_scaleY">Y-Scale</label>
                     <div class="form-check form-switch">
-                        <input type="checkbox" id="" class="form-check-input" checked="">
+                        <input type="checkbox" id="BG:${BG_id}_GR:${GR_id}_scaleY_toggle" class="form-check-input" checked="">
                         <input type="range" id="BG:${BG_id}_GR:${GR_id}_scaleY" class="form-range" value="0" min="0" max="100" step="1">
                     </div>
                 </div>
@@ -363,7 +412,7 @@ function generateControllerViewColorStop(BG_id, GR_id, CS_id) {
         <div class="row box">
             <div class="col box">
                 <div class="form-check form-switch">
-                    <input type="checkbox" id="BG:${BG_id}_GR:${GR_id}_CS:${CS_id}_color_enable" class="form-check-input" checked="">
+                    <input type="checkbox" id="BG:${BG_id}_GR:${GR_id}_CS:${CS_id}_color_toggle" class="form-check-input" checked="">
                     <input type="color" id="BG:${BG_id}_GR:${GR_id}_CS:${CS_id}_color">
                 </div>
             </div>
@@ -375,12 +424,12 @@ function generateControllerViewColorStop(BG_id, GR_id, CS_id) {
     <div class="col-9 box">
         <label for="BG:${BG_id}_GR:${GR_id}_CS:${CS_id}_pos1">Pos-1</label>
         <div class="form-check form-switch">
-            <input type="checkbox" id="" class="form-check-input" checked="">
+            <input type="checkbox" id="BG:${BG_id}_GR:${GR_id}_CS:${CS_id}_pos1_toggle" class="form-check-input" checked="">
             <input type="range" id="BG:${BG_id}_GR:${GR_id}_CS:${CS_id}_pos1" class="form-range" value="0" min="0" max="100" step="1">
         </div>
         <label for="BG:${BG_id}_GR:${GR_id}_CS:${CS_id}_pos2">Pos-2</label>
         <div class="form-check form-switch">
-            <input type="checkbox" id="" class="form-check-input" checked="">
+            <input type="checkbox" id="BG:${BG_id}_GR:${GR_id}_CS:${CS_id}_pos2_toggle" class="form-check-input" checked="">
             <input type="range" id="BG:${BG_id}_GR:${GR_id}_CS:${CS_id}_pos2" class="form-range" value="0" min="0" max="100" step="1">
         </div>
     </div>
