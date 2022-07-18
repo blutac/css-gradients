@@ -158,7 +158,7 @@ class BackgroundSize
     }
     set y(value) {this._y = value;}
 
-    constructor(x = "", y = "") {
+    constructor(x = 100, y = 100) {
         this.x = x;
         this.y = y;
     }
@@ -210,7 +210,7 @@ class Gradient
     }
     set y(value) {this._y = value;}
 
-    constructor(type = "linear", angle = 0, x = "", y = "") {
+    constructor(type = "linear", angle = 0, x = 0, y = 0) {
         this.colorStops = [];
         this.type = type;
         this.angle = angle;
@@ -248,7 +248,7 @@ class ColorStop
     }
     set pos2(value) {this._pos2 = value;}
 
-    constructor(color = "Black", pos1 = "", pos2 = "") {
+    constructor(color = "Black", pos1 = 0, pos2 = 0) {
         this.color = color;
         this.pos1 = pos1;
         this.pos2 = pos2;
