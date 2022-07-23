@@ -311,16 +311,26 @@ class ColorStop
 
 function generateControllerViewBackground(BG_id) {
     return `
-    <div id="BG:${BG_id}_gradients" class="container box"></div>
-    <button id="BG:${BG_id}_addGradient" class="btn btn-success">+</button>
-    <button id="BG:${BG_id}_render" class="btn btn-success">Render</button>
+    <div class="container">
+        <div class="row box">
+            <div id="BG:${BG_id}_gradients" class="col box"></div>
+        </div>
+        <div class="row box">
+            <div class="col-auto p-1 box">
+                <button id="BG:${BG_id}_addGradient" class="btn btn-success">+</button>
+            </div>
+            <div class="col-auto box">
+                <button id="BG:${BG_id}_render" class="btn btn-success">Render</button>
+            </div>
+        </div>
+    </div>
     `;
 }
 
 function generateControllerViewGradient(BG_id, GR_id) {
     return `
     <div id="BG:${BG_id}_GR:${GR_id}" class="row box">
-        <div class="col box">
+        <div class="col-auto box">
             <div class="row box">
                 <button id="BG:${BG_id}_GR:${GR_id}_moveUp" class="btn btn-outline-secondary">△</button>
             </div>
@@ -331,108 +341,187 @@ function generateControllerViewGradient(BG_id, GR_id) {
                 <button id="BG:${BG_id}_GR:${GR_id}_moveDown" class="btn btn-outline-secondary">▽</button>
             </div>
         </div>
-
-        <div class="col-11 box">
+        <div class="col box">
             <div class="row box">
-                <div class="col-2 box">
-                    <label for="BG:${BG_id}_GR:${GR_id}_type">Type</label>
-                    <select id="BG:${BG_id}_GR:${GR_id}_type">
-                        <option value="linear">linear</option>
-                        <option value="radial">radial</option>
-                        <option value="conic">conic</option>
-                        <option value="repeating-linear">repeating-linear</option>
-                        <option value="repeating-radial">repeating-radial</option>
-                    </select>
-                    <br>
-                    <label for="BG:${BG_id}_GR:${GR_id}_angle">Angle</label>
-                    <div class="form-check form-switch">
-                        <input type="checkbox" id="BG:${BG_id}_GR:${GR_id}_angle_toggle" class="form-check-input" checked="">
-                        <input type="range" id="BG:${BG_id}_GR:${GR_id}_angle" class="form-range" value="0" min="0" max="360" step="1">
+                <div class="col-auto box">
+                    <div class="row box">
+                        <div class="col box">
+                            <div class="form-check form-switch">
+                                <input type="checkbox" id="BG:${BG_id}_GR:${GR_id}_gradient_toggle" class="form-check-input" checked="">
+                                <label for="BG:${BG_id}_GR:${GR_id}_gradient_toggle">Gradient:</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row box">
+                        <div class="col box">
+                            <label for="BG:${BG_id}_GR:${GR_id}_type">Type</label>
+                            <select id="BG:${BG_id}_GR:${GR_id}_type">
+                                <option value="linear">linear</option>
+                                <option value="radial">radial</option>
+                                <option value="conic">conic</option>
+                                <option value="repeating-linear">repeating-linear</option>
+                                <option value="repeating-radial">repeating-radial</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row box">
+                        <div class="col-auto box">
+                            <label for="BG:${BG_id}_GR:${GR_id}_angle">Angle</label>
+                        </div>
+                        <div class="col box">
+                            <div class="form-check form-switch">
+                                <input type="checkbox" id="BG:${BG_id}_GR:${GR_id}_angle_toggle" class="form-check-input" checked="">
+                                <input type="range" id="BG:${BG_id}_GR:${GR_id}_angle" class="form-range" value="0" min="0" max="360" step="1">
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col box">
-                    <label for="BG:${BG_id}_GR:${GR_id}_offsetX">X-Offset</label>
-                    <div class="form-check form-switch">
-                        <input type="checkbox" id="BG:${BG_id}_GR:${GR_id}_offsetX_toggle" class="form-check-input" checked="">
-                        <input type="range" id="BG:${BG_id}_GR:${GR_id}_offsetX" class="form-range" value="0" min="0" max="500" step="1">
+                    <div class="row box">
+                        <div class="col box">
+                            Offset
+                        </div>
                     </div>
-                    <label for="BG:${BG_id}_GR:${GR_id}_offsetY">Y-Offset</label>
-                    <div class="form-check form-switch">
-                        <input type="checkbox" id="BG:${BG_id}_GR:${GR_id}_offsetY_toggle" class="form-check-input" checked="">
-                        <input type="range" id="BG:${BG_id}_GR:${GR_id}_offsetY" class="form-range" value="0" min="0" max="500" step="1">
+                    <div class="row box">
+                        <div class="col-auto box">
+                            <label for="BG:${BG_id}_GR:${GR_id}_offsetX">X</label>
+                        </div>
+                        <div class="col box">
+                            <div class="form-check form-switch">
+                                <input type="checkbox" id="BG:${BG_id}_GR:${GR_id}_offsetX_toggle" class="form-check-input" checked="">
+                                <input type="range" id="BG:${BG_id}_GR:${GR_id}_offsetX" class="form-range" value="0" min="0" max="500" step="1">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row box">
+                        <div class="col-auto box">
+                            <label for="BG:${BG_id}_GR:${GR_id}_offsetY">Y</label>
+                        </div>
+                        <div class="col box">
+                            <div class="form-check form-switch">
+                                <input type="checkbox" id="BG:${BG_id}_GR:${GR_id}_offsetY_toggle" class="form-check-input" checked="">
+                                <input type="range" id="BG:${BG_id}_GR:${GR_id}_offsetY" class="form-range" value="0" min="0" max="500" step="1">
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col box">
-                    <label for="BG:${BG_id}_GR:${GR_id}_scaleX">X-Scale</label>
-                    <div class="form-check form-switch">
-                        <input type="checkbox" id="BG:${BG_id}_GR:${GR_id}_scaleX_toggle" class="form-check-input" checked="">
-                        <input type="range" id="BG:${BG_id}_GR:${GR_id}_scaleX" class="form-range" value="100" min="0" max="100" step="1">
+                    <div class="row box">
+                        <div class="col box">
+                            Scale
+                        </div>
                     </div>
-                    <label for="BG:${BG_id}_GR:${GR_id}_scaleY">Y-Scale</label>
-                    <div class="form-check form-switch">
-                        <input type="checkbox" id="BG:${BG_id}_GR:${GR_id}_scaleY_toggle" class="form-check-input" checked="">
-                        <input type="range" id="BG:${BG_id}_GR:${GR_id}_scaleY" class="form-range" value="100" min="0" max="100" step="1">
+                    <div class="row box">
+                        <div class="col-auto box">
+                            <label for="BG:${BG_id}_GR:${GR_id}_scaleX">X</label>
+                        </div>
+                        <div class="col box">
+                            <div class="form-check form-switch">
+                                <input type="checkbox" id="BG:${BG_id}_GR:${GR_id}_scaleX_toggle" class="form-check-input" checked="">
+                                <input type="range" id="BG:${BG_id}_GR:${GR_id}_scaleX" class="form-range" value="100" min="0" max="100" step="1">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row box">
+                        <div class="col-auto box">
+                            <label for="BG:${BG_id}_GR:${GR_id}_scaleY">Y</label>
+                        </div>
+                        <div class="col box">
+                            <div class="form-check form-switch">
+                                <input type="checkbox" id="BG:${BG_id}_GR:${GR_id}_scaleY_toggle" class="form-check-input" checked="">
+                                <input type="range" id="BG:${BG_id}_GR:${GR_id}_scaleY" class="form-range" value="100" min="0" max="100" step="1">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="row box">
-                <div id="BG:${BG_id}_GR:${GR_id}_colorStops" class="container box">
+            <details open="">
+                <summary>Color Stops</summary>
+                <div class="row box">
+                    <div id="BG:${BG_id}_GR:${GR_id}_colorStops" class="col box"></div>
                 </div>
-            </div>
+                <div class="row box">
+                    <div class="col-auto p-1 box">
+                        <button id="BG:${BG_id}_GR:${GR_id}_addColorStop" class="btn btn-success">+</button>
+                    </div>
+                </div>
+            </details>
         </div>
     </div>
-
-    <button id="BG:${BG_id}_GR:${GR_id}_addColorStop" class="btn btn-success">+</button>
     `;
 }
 
 function generateControllerViewColorStop(BG_id, GR_id, CS_id) {
     return `
     <div id="BG:${BG_id}_GR:${GR_id}_CS:${CS_id}" class="row box">
-    <div class="col box">
-        <div class="row box">
-            <button id="BG:${BG_id}_GR:${GR_id}_CS:${CS_id}_moveUp" class="btn btn-outline-secondary">△</button>
-        </div>
-        <div class="row box">
-            <button id="BG:${BG_id}_GR:${GR_id}_CS:${CS_id}_delete" class="btn btn-outline-danger">X</button>
-        </div>
-        <div class="row box">
-            <button id="BG:${BG_id}_GR:${GR_id}_CS:${CS_id}_moveDown" class="btn btn-outline-secondary">▽</button>
-        </div>
-    </div>
-    <div class="col-2 box">
-        <div class="row box">
-            <div class="col box">
-                <label for="BG:${BG_id}_GR:${GR_id}_CS:${CS_id}_color">Color</label>
+        <div class="col-auto box">
+            <div class="row box">
+                <button id="BG:${BG_id}_GR:${GR_id}_CS:${CS_id}_moveUp" class="btn btn-outline-secondary">△</button>
             </div>
-            <div class="col box">
-                <label for="BG:${BG_id}_GR:${GR_id}_CS:${CS_id}_color_transparency">Transparency</label>
+            <div class="row box">
+                <button id="BG:${BG_id}_GR:${GR_id}_CS:${CS_id}_delete" class="btn btn-outline-danger">X</button>
+            </div>
+            <div class="row box">
+                <button id="BG:${BG_id}_GR:${GR_id}_CS:${CS_id}_moveDown" class="btn btn-outline-secondary">▽</button>
             </div>
         </div>
-        <div class="row box">
-            <div class="col box">
-                <div class="form-check form-switch">
-                    <input type="checkbox" id="BG:${BG_id}_GR:${GR_id}_CS:${CS_id}_color_toggle" class="form-check-input" checked="">
+        <div class="col-auto box">
+            <div class="row box">
+                <div class="col box">
+                    <div class="form-check form-switch">
+                        <input type="checkbox" id="BG:${BG_id}_GR:${GR_id}_CS:${CS_id}_colorStop_toggle" class="form-check-input" checked="">
+                        <label for="BG:${BG_id}_GR:${GR_id}_CS:${CS_id}_colorStop_toggle">ColorStop:</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row box">
+                <div class="col box">
+                    <label for="BG:${BG_id}_GR:${GR_id}_CS:${CS_id}_color">Color</label>
+                </div>
+            </div>
+            <div class="row box">
+                <div class="col-auto box">
+                    <div class="form-check form-switch">
+                        <input type="checkbox" id="BG:${BG_id}_GR:${GR_id}_CS:${CS_id}_color_toggle" class="form-check-input" checked="">
+                    </div>
+                </div>
+                <div class="col-auto p-1 box">
+                    <input type="checkbox" id="BG:${BG_id}_GR:${GR_id}_CS:${CS_id}_color_transparency" class="form-check-input">
+                </div>
+                <div class="col p-0 box">
                     <input type="color" id="BG:${BG_id}_GR:${GR_id}_CS:${CS_id}_color">
                 </div>
             </div>
-            <div class="col box">
-                <input type="checkbox" id="BG:${BG_id}_GR:${GR_id}_CS:${CS_id}_color_transparency" class="form-check-input">
+        </div>
+        <div class="col box">
+            <div class="row box">
+                <div class="col box">
+                    Position
+                </div>
+            </div>
+            <div class="row box">
+                <div class="col-auto box">
+                    <label for="BG:${BG_id}_GR:${GR_id}_CS:${CS_id}_pos1">1</label>
+                </div>
+                <div class="col box">
+                    <div class="form-check form-switch">
+                        <input type="checkbox" id="BG:${BG_id}_GR:${GR_id}_CS:${CS_id}_pos1_toggle" class="form-check-input" checked="">
+                        <input type="range" id="BG:${BG_id}_GR:${GR_id}_CS:${CS_id}_pos1" class="form-range" value="0" min="0" max="100" step="1">
+                    </div>
+                </div>
+            </div>
+            <div class="row box">
+                <div class="col-auto box">
+                    <label for="BG:${BG_id}_GR:${GR_id}_CS:${CS_id}_pos2">2</label>
+                </div>
+                <div class="col box">
+                    <div class="form-check form-switch">
+                        <input type="checkbox" id="BG:${BG_id}_GR:${GR_id}_CS:${CS_id}_pos2_toggle" class="form-check-input" checked="">
+                        <input type="range" id="BG:${BG_id}_GR:${GR_id}_CS:${CS_id}_pos2" class="form-range" value="0" min="0" max="100" step="1">
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col-9 box">
-        <label for="BG:${BG_id}_GR:${GR_id}_CS:${CS_id}_pos1">Pos-1</label>
-        <div class="form-check form-switch">
-            <input type="checkbox" id="BG:${BG_id}_GR:${GR_id}_CS:${CS_id}_pos1_toggle" class="form-check-input" checked="">
-            <input type="range" id="BG:${BG_id}_GR:${GR_id}_CS:${CS_id}_pos1" class="form-range" value="0" min="0" max="100" step="1">
-        </div>
-        <label for="BG:${BG_id}_GR:${GR_id}_CS:${CS_id}_pos2">Pos-2</label>
-        <div class="form-check form-switch">
-            <input type="checkbox" id="BG:${BG_id}_GR:${GR_id}_CS:${CS_id}_pos2_toggle" class="form-check-input" checked="">
-            <input type="range" id="BG:${BG_id}_GR:${GR_id}_CS:${CS_id}_pos2" class="form-range" value="0" min="0" max="100" step="1">
-        </div>
-    </div>
     </div>
     `;
 }
