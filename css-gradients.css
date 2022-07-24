@@ -1,0 +1,63 @@
+/*
+#8C93A8 : Cool Grey
+#2A2D34 : Gunmetal
+#3E885B : Sea Green
+#F7F3E3 : Cosmic Latte
+#B0C6CE : Beau Blue
+
+#CDEAC0 : Tea Green
+    #9BC1BC: Opal
+    #8D918B: Spanish Gray
+    #519872: Shiny Shamrock
+    #2C6E49: Dark Spring Green
+    #4B4F58: Davys Grey
+    #6E8898: Light Slate Gray
+#2A3D50: Charcoal
+#2A2D34 : Gunmetal
+#AD343E : Cardinal
+#F2AF29 : Honey Yellow
+#668F80 : Wintergreen Dream
+
+#EAEBED : Cultured
+#A3BAC3 : Pewter Blue
+#654F6F : English Violet
+#5C5D8D : Dark Blue Gray
+#353D2F : Kombu Green
+*/
+
+:root {
+    --gunmetal: #2A2D34ff;
+    --davys-grey: #4A4D53ff;
+    --dim-gray: #6A6C72ff;
+    --roman-silver: #8A8C91ff;
+    --silver-chalice: #AAACAFff;
+    --light-gray: #CACBCEff;
+    --cultured: #EAEBEDff;
+}
+body {
+    background-color: var(--gunmetal);
+}
+.box {
+    border: 0px dashed;
+    border-color: red;
+}
+.bg {
+    border: 0px dashed;
+    border-color: black;
+    background-color: black;
+}
+.vc {
+    background-color: var(--gunmetal);
+}
+.vc-gradient {
+    border: 0px dashed;
+    border-radius: 5px;
+    border-color: black;
+    background-color: var(--light-gray);
+}
+.vc-colorStop {
+    border: 0px dashed;
+    border-radius: 5px;
+    border-color: black;
+    background-color: var(--silver-chalice);
+}
